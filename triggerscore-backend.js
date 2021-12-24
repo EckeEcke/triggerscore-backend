@@ -71,12 +71,15 @@ function calculateScores(data){
       scores[index].rating_total = Math.floor(scores[index].rating_total / scores[index].ratings * 10) / 10
       */
     }
-    scores.map(score => Object.keys(score).forEach(key => key = Math.floor(key / score.ratings * 10) / 10))
-    console.log(scores)
   })
-  return scores
+    scores.map(score => Object.keys(score).forEach(key => {
+      if (key !== "ratings"){
+        key = Math.floor(key / score.ratings * 10) / 10
+      }
+    }))
+    console.log(scores)
+  return scores 
 }
-
 
 
 
