@@ -44,13 +44,20 @@ function calculateScores(data){
     let entryTotal = entry.rating_sexism + entry.rating_racism + entry.rating_others + entry.rating_cringe
     if(index == -1) {
       entry.rating_total = entryTotal
+      entry.ratings = 1
       scores.push(entry)
     } else {
+      scores[index].ratings += 1
       scores[index].rating_sexism += entry.rating_sexism
       scores[index].rating_racism += entry.rating_racism
       scores[index].rating_others += entry.rating_others
       scores[index].rating_cringe += entry.rating_cringe
       scores[index].rating_total += entryTotal
+      scores[index].rating_sexism = Math.floor(entry.rating_sexism / scores[index].ratings * 10) / 10
+      scores[index].rating_racism = Math.floor(entry.rating_racism / scores[index].ratings * 10) / 10
+      scores[index].rating_others = Math.floor(entry.rating_others / scores[index].ratings * 10) / 10
+      scores[index].rating_cringe = Math.floor(entry.rating_cringe / scores[index].ratings * 10) / 10
+      scores[index].rating_total = Math.floor(entryTotal / scores[index].ratings * 10) / 10
     }
   })
   return scores
