@@ -63,16 +63,16 @@ function calculateScores(data){
       scores[index].rating_others += entry.rating_others
       scores[index].rating_cringe += entry.rating_cringe
       scores[index].rating_total += entryTotal
-     // scores[index].rating_sexism = Math.floor(scores[index].rating_sexism / scores[index].ratings * 10) / 10
-     // scores[index].rating_racism = Math.floor(scores[index].rating_racism / scores[index].ratings * 10) / 10
-     // scores[index].rating_others = Math.floor(scores[index].rating_others / scores[index].ratings * 10) / 10
-     // scores[index].rating_cringe = Math.floor(scores[index].rating_cringe / scores[index].ratings * 10) / 10
-     // scores[index].rating_total = Math.floor(scores[index].rating_total / scores[index].ratings * 10) / 10
+      /*
+      scores[index].rating_sexism = Math.floor(scores[index].rating_sexism / scores[index].ratings * 10) / 10
+      scores[index].rating_racism = Math.floor(scores[index].rating_racism / scores[index].ratings * 10) / 10
+      scores[index].rating_others = Math.floor(scores[index].rating_others / scores[index].ratings * 10) / 10
+      scores[index].rating_cringe = Math.floor(scores[index].rating_cringe / scores[index].ratings * 10) / 10
+      scores[index].rating_total = Math.floor(scores[index].rating_total / scores[index].ratings * 10) / 10
+      */
     }
+    scores.map(score => score.keys.forEach(key => key = Math.floor(key / score.ratings * 10) / 10))
   })
-  scores = scores.map(score => score.keys.forEach(key => {
-    key = Math.floor(key / score.ratings * 10) / 10
-  }))
   return scores
 }
 
