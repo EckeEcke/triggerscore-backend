@@ -1,0 +1,1 @@
+web: node triggerscore-backend.js
