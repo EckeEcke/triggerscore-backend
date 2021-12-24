@@ -72,13 +72,15 @@ function calculateScores(data){
       */
     }
   })
+  scores.forEach(score=> {
+    score.rating_sexism = score.rating_sexism / score.ratings
+    score.rating_racism = score.rating_racism / score.ratings
+    score.rating_others = score.rating_others / score.ratings
+    score.rating_cringe = score.rating_cringe / score.ratings
+  })
     
     console.log(scores)
-  return  scores.map(score => Object.keys(score).forEach(key => {
-    if (key !== "ratings"){
-      key = Math.floor(key / score.ratings * 10) / 10
-    }
-  }))
+  return  scores
 }
 
 
