@@ -5,10 +5,10 @@ const port = process.env.PORT || 3000;
 const http = require('http');
 const mysql = require('mysql');
 const con = mysql.createConnection({
-  host: "ulsq0qqx999wqz84.chr7pe7iynqr.eu-west-1.rds.amazonaws.com",
-  database: "qzl4o8akbn6y17dv",
-  user: "mpwyg8k3gepwa8ib",
-  password: "cgyqdt5o7p6l3q6w",
+  host: "c8u4r7fp8i8qaniw.chr7pe7iynqr.eu-west-1.rds.amazonaws.com",
+  database: "v0mtw65d57zsmu6p",
+  user: "u7ghvmrp1qd4nd7e",
+  password: "fdfmk7k5da0azwof",
   port: 3306
 });
 
@@ -47,7 +47,7 @@ app.post('/post', function(request,response){
     console.log("no player defined in request body.............")
   }
   if(request.body.movieID != undefined){
-    con.query('INSERT INTO triggerscore (movieID,sexism, racism, others, cringe) VALUES (?, ?, ?, ?, ?)',[request.body.movieID,request.body.sexism,request.body.racism, request.body.others, request.body.cringe], function (err) {
+    con.query('INSERT INTO triggerscore (movie_id,rating_sexism, rating_racism, rating_others, rating_cringe) VALUES (?, ?, ?, ?, ?)',[request.body.movieID,request.body.sexism,request.body.racism, request.body.others, request.body.cringe], function (err) {
       if(err) throw err;
       else {response.send("Received request")};
   })
