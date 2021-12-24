@@ -37,7 +37,7 @@ app.get('/', function (req, res) {
 }).listen(port);
 
 function calculateScores(data){
-  let scores
+  let scores = []
   console.log(data)
   data.forEach(entry => {
     let index = scores.map(score => score.movie_id).indexOf(entry.movie_id)
