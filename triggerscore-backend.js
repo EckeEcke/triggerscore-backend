@@ -63,14 +63,16 @@ function calculateScores(data){
       scores[index].rating_others += entry.rating_others
       scores[index].rating_cringe += entry.rating_cringe
       scores[index].rating_total += entryTotal
-      scores[index].rating_sexism = Math.floor(scores[index].rating_sexism / scores[index].ratings * 10) / 10
-      scores[index].rating_racism = Math.floor(scores[index].rating_racism / scores[index].ratings * 10) / 10
-      scores[index].rating_others = Math.floor(scores[index].rating_others / scores[index].ratings * 10) / 10
-      scores[index].rating_cringe = Math.floor(scores[index].rating_cringe / scores[index].ratings * 10) / 10
-      scores[index].rating_total = Math.floor(scores[index].rating_total / scores[index].ratings * 10) / 10
+     // scores[index].rating_sexism = Math.floor(scores[index].rating_sexism / scores[index].ratings * 10) / 10
+     // scores[index].rating_racism = Math.floor(scores[index].rating_racism / scores[index].ratings * 10) / 10
+     // scores[index].rating_others = Math.floor(scores[index].rating_others / scores[index].ratings * 10) / 10
+     // scores[index].rating_cringe = Math.floor(scores[index].rating_cringe / scores[index].ratings * 10) / 10
+     // scores[index].rating_total = Math.floor(scores[index].rating_total / scores[index].ratings * 10) / 10
     }
   })
-  return scores
+  return scores.map(score => score.keys.forEach(key => {
+    key.value = Math.floor(key.value / score.ratings * 10) / 10
+  }))
 }
 
 
@@ -80,7 +82,7 @@ app.post('/post', function(request,response){
   //const postSQL = 'INSERT INTO highscores (Player, Score) VALUES ([request.body.Player],[request.body.Score])';
   console.log(request.body);
   if(request.body.movieID == undefined) {
-    console.log("no player defined in request body.............")
+    console.log("no movie defined in request body.............")
   }
   if(request.body.movieID != undefined){
     con.query('INSERT INTO triggerscore (movie_id,rating_sexism, rating_racism, rating_others, rating_cringe) VALUES (?, ?, ?, ?, ?)',[request.body.movieID,request.body.sexism,request.body.racism, request.body.others, request.body.cringe], function (err) {
