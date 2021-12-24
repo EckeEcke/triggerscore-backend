@@ -31,11 +31,28 @@ app.get('/', function (req, res) {
   con.query(sql, function(err,result){
     if (err) throw err;
     else {
-      res.send(result);
+      res.send(calculateScores(result));
     }})
 }).listen(port);
 
-
+function calculateScores(data){
+  let scores
+  data.forEach(entry => {
+    let index = scores.indexOf(entry)
+    let entryTotal = entry.rating_sexism + entry.rating_racism + entry.rating_others + entry.rating_cringe
+    if(index == -1) {
+      entry.rating_total = entryTotal
+      scores.push(entry)
+    } else {
+      scores[index].rating_sexism += entry.rating_sexism
+      scores[index].rating_racism += entry.rating_racism
+      scores[index].rating_others += entry.rating_others
+      scores[index].rating_cringe += entry.rating_cringe
+      scores[index].rating_total += entryTotal
+    }
+  })
+  return scores
+}
 
 
 
