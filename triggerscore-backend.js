@@ -14,7 +14,6 @@ const con = mysql.createConnection({
 
 const sql = `SELECT * FROM triggerscore ORDER BY id ASC`;
 
-
 con.connect(function(err) {
   if(err) throw err;
   console.log("Connected!");
@@ -35,6 +34,17 @@ app.get('/', function (req, res) {
       res.send(calculatedScores);
     }})
 }).listen(port);
+
+app.get('/movie', function(req,res) {
+  con.query(`SELECT * FROM triggerscore WHERE movie_id = ${req.query.id}`, function(err,result){
+    if(err) throw err;
+    else {
+      let calculatedScore = calculateScores(result)
+      res.send(calculatedScore)
+    }
+  })
+})
+
 
 function calculateScores(data){
   let scores = []
