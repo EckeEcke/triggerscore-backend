@@ -57,7 +57,7 @@ function calculateScores(data){
       scores[index].rating_racism = Math.floor(entry.rating_racism / scores[index].ratings * 10) / 10
       scores[index].rating_others = Math.floor(entry.rating_others / scores[index].ratings * 10) / 10
       scores[index].rating_cringe = Math.floor(entry.rating_cringe / scores[index].ratings * 10) / 10
-      scores[index].rating_total = Math.floor(entryTotal / scores[index].ratings * 10) / 10
+      scores[index].rating_total = Math.floor(entry.rating_total / scores[index].ratings * 10) / 10
     }
   })
   return scores
