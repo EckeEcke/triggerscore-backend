@@ -1,0 +1,22 @@
+{
+  "name": "triggerscore-backend",
+  "version": "1.0.0",
+  "description": "backend for triggerscore ratings",
+  "main": "triggerscore-backend.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "start": "node triggerscore-backend.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EckeEcke/triggerscore-backend.git"
+  },
+  "author": "Christian Eckardt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EckeEcke/triggerscore-backend/issues"
+  },
+  "homepage": "https://github.com/EckeEcke/triggerscore-backend#readme"
+}
