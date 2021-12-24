@@ -72,6 +72,7 @@ function calculateScores(data){
       */
     }
     scores.map(score => score.keys.forEach(key => key = Math.floor(key / score.ratings * 10) / 10))
+    console.log(scores)
   })
   return scores
 }
