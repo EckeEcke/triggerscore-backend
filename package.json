@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "backend for triggerscore ratings",
   "main": "triggerscore-backend.js",
-  "dependencies": {},
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "node": "^17.3.0"
+  },
   "devDependencies": {},
   "scripts": {
     "start": "node triggerscore-backend.js",
