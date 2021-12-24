@@ -31,7 +31,8 @@ app.get('/', function (req, res) {
   con.query(sql, function(err,result){
     if (err) throw err;
     else {
-      res.send(calculateScores(result));
+      let calculatedScores = calculateScores(result)
+      res.send(calculatedScores);
     }})
 }).listen(port);
 
