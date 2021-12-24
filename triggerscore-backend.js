@@ -63,23 +63,14 @@ function calculateScores(data){
       scores[index].rating_others += entry.rating_others
       scores[index].rating_cringe += entry.rating_cringe
       scores[index].rating_total += entryTotal
-      /*
-      scores[index].rating_sexism = Math.floor(scores[index].rating_sexism / scores[index].ratings * 10) / 10
-      scores[index].rating_racism = Math.floor(scores[index].rating_racism / scores[index].ratings * 10) / 10
-      scores[index].rating_others = Math.floor(scores[index].rating_others / scores[index].ratings * 10) / 10
-      scores[index].rating_cringe = Math.floor(scores[index].rating_cringe / scores[index].ratings * 10) / 10
-      scores[index].rating_total = Math.floor(scores[index].rating_total / scores[index].ratings * 10) / 10
-      */
     }
   })
   scores.forEach(score=> {
-    score.rating_sexism = score.rating_sexism / score.ratings
-    score.rating_racism = score.rating_racism / score.ratings
-    score.rating_others = score.rating_others / score.ratings
-    score.rating_cringe = score.rating_cringe / score.ratings
+    score.rating_sexism = Math.floor(score.rating_sexism / score.ratings * 10) / 10
+    score.rating_racism = Math.floor(score.rating_racism / score.ratings * 10) / 10
+    score.rating_others = Math.floor(score.rating_others / score.ratings * 10) / 10
+    score.rating_cringe = Math.floor(score.rating_cringe / score.ratings * 10) / 10
   })
-    
-    console.log(scores)
   return  scores
 }
 
