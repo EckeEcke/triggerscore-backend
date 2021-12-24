@@ -40,7 +40,7 @@ function calculateScores(data){
   let scores
   console.log(data)
   data.forEach(entry => {
-    let index = scores.indexOf(entry)
+    let index = scores.indexOf(entry.movie_id)
     let entryTotal = entry.rating_sexism + entry.rating_racism + entry.rating_others + entry.rating_cringe
     if(index == -1) {
       entry.rating_total = entryTotal
