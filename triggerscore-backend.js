@@ -51,7 +51,7 @@ function calculateScores(data){
   console.log(data)
   data.forEach(entry => {
     let index = scores.map(score => score.movie_id).indexOf(entry.movie_id)
-    let entryTotal = (entry.rating_sexism + entry.rating_racism + entry.rating_others + entry.rating_cringe) / 4
+    let entryTotal = (entry.rating_sexism + entry.rating_racism + entry.rating_others) / 3
     if(index == -1) {
       entry.rating_total = entryTotal
       entry.ratings = 1
