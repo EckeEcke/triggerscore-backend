@@ -35,8 +35,8 @@ app.get('/', function (req, res) {
     }})
 }).listen(port);
 
-app.get('/movie', function(req,res) {
-  con.query(`SELECT * FROM triggerscore WHERE movie_id = ${req.query.id}`, function(err,result){
+app.get('/movie/:id', function(req,res) {
+  con.query(`SELECT * FROM triggerscore WHERE movie_id = ${req.params.id}`, function(err,result){
     if(err) throw err;
     else {
       let calculatedScore = calculateScores(result)
