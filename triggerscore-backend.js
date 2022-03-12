@@ -45,6 +45,15 @@ app.get('/movie/:id', function(req,res) {
   })
 })
 
+app.get('/recentratings', function(req,res) {
+  con.query(`SELECT * FROM triggerscore ORDER BY id DESC LIMIT 5`, function(err,result){
+    if(err) throw err;
+    else {
+      res.send(result)
+    }
+  })
+})
+
 
 function calculateScores(data){
   let scores = []
