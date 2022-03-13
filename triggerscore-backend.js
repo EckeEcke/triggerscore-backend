@@ -70,7 +70,7 @@ app.get('/top10-racism', function(req,res){
     else {
       let calculatedScores = calculateScores(result)
       let top10 = calculatedScores.sort((a,b)=> {return b.rating_racism - a.rating_racism})
-      res.send(top10);
+      res.send(top10.slice(0,10));
     }})
 })
 
@@ -80,7 +80,7 @@ app.get('/top10-others', function(req,res){
     else {
       let calculatedScores = calculateScores(result)
       let top10 = calculatedScores.sort((a,b)=> {return b.rating_others - a.rating_others})
-      res.send(top10);
+      res.send(top10.slice(0,10));
     }})
 })
 
@@ -90,18 +90,9 @@ app.get('/top10-cringe', function(req,res){
     else {
       let calculatedScores = calculateScores(result)
       let top10 = calculatedScores.sort((a,b)=> {return b.rating_cringe - a.rating_cringe})
-      res.send(top10);
+      res.send(top10.slice(0,10));
     }})
 })
-
-function sortByTsDesc(array,key){
-  return function(x,y){
-      const tsX = array[x][key]
-      const tsY = array[y][key]
-      if (tsX > tsY){ return -1}
-      if (tsX < tsY){ return 1}
-  }
-}
 
 
 function calculateScores(data){
