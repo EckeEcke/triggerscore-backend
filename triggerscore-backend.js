@@ -67,10 +67,10 @@ app.get('/top10', function(req,res){
 
 function sortByTsDesc(array,key){
   return function(x,y){
-      const x = array[array.map(score => score.movie_id).indexOf(x.id)][key]
-      const y = array[array.map(score => score.movie_id).indexOf(y.id)][key]
-      if (x > y){ return -1}
-      if (x < y){ return 1}
+      const tsX = array[array.map(score => score.movie_id).indexOf(x.id)][key]
+      const tsY = array[array.map(score => score.movie_id).indexOf(y.id)][key]
+      if (tsX > tsY){ return -1}
+      if (tsX < tsY){ return 1}
   }
 }
 
