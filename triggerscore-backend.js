@@ -60,7 +60,6 @@ app.get('/top10', function(req,res){
     else {
       let calculatedScores = calculateScores(result)
       calculatedScores = sortByTsDesc(calculatedScores,"rating_sexism")
-      calculatedScores = calculatedScores.slice(0,9)
       res.send(calculatedScores);
     }})
 })
