@@ -59,6 +59,7 @@ app.get('/top10', function(req,res){
     if (err) throw err;
     else {
       let calculatedScores = calculateScores(result)
+      console.log(typeof calculatedScores)
       calculatedScores = sortByTsDesc(calculatedScores,"rating_sexism")
       res.send(calculatedScores);
     }})
