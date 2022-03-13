@@ -58,10 +58,9 @@ app.get('/top10', function(req,res){
   con.query(sql, function(err,result){
     if (err) throw err;
     else {
-      let calculatedScores = calculateScores(result).slice(0)
-      console.log(calculatedScores)
-      top10 = calculatedScores.sort(sortByTsDesc(calculatedScores,"rating_sexism"))
-      res.send(top10);
+      let calculatedScores = calculateScores(result)
+      let top10 = calculatedScores.sort((a,b)=> {return b.rating_sexism - a.rating_sexism})
+      res.send(calculatedScores);
     }})
 })
 
