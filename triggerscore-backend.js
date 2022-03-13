@@ -60,15 +60,15 @@ app.get('/top10', function(req,res){
     else {
       let calculatedScores = calculateScores(result)
       console.log(calculatedScores)
-      calculatedScores = calculatedScores.sort(sortByTsDesc(calculatedScores,"rating_sexism"))
-      res.send(calculatedScores);
+      top10 = calculatedScores.sort(sortByTsDesc(calculatedScores,"rating_sexism"))
+      res.send(top10);
     }})
 })
 
 function sortByTsDesc(object,key){
   return function(x,y){
-      const triggerscoreX = object.map(score => score.movie_id).indexOf(x.id)[key]
-      const triggerscoreY = object.map(score => score.movie_id).indexOf(y.id)[key]
+      const triggerscoreX = object.map(score => score[key])
+      const triggerscoreY = object.map(score => score[key])
       if (triggerscoreX > triggerscoreY){ return -1}
       if (triggerscoreX < triggerscoreY){ return 1}
   }
