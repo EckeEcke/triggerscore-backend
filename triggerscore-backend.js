@@ -54,6 +54,25 @@ app.get('/recentratings', function(req,res) {
   })
 })
 
+app.get('/top10', function(req,res){
+  con.query(sql, function(err,result){
+    if (err) throw err;
+    else {
+      let calculatedScores = calculateScores(result)
+      calculatedScores = sortByTsDesc(calculatedScores,"rating_sexism")
+      res.send(calculatedScores.slice(0,9));
+    }})
+})
+
+function sortByTsDesc(array,key){
+  return function(x,y){
+      const triggerscoreX = array[array.map(score => score.movie_id).indexOf(x.id)][key]
+      const triggerscoreY = array[array.map(score => score.movie_id).indexOf(y.id)][key]
+      if (triggerscoreX > triggerscoreY){ return -1}
+      if (triggerscoreX < triggerscoreY){ return 1}
+  }
+}
+
 
 function calculateScores(data){
   let scores = []
