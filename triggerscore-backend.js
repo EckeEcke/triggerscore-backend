@@ -65,10 +65,10 @@ app.get('/top10', function(req,res){
     }})
 })
 
-function sortByTsDesc(array,key){
+function sortByTsDesc(object,key){
   return function(x,y){
-      const triggerscoreX = array[array.map(score => score.movie_id).indexOf(x.id)][key]
-      const triggerscoreY = array[array.map(score => score.movie_id).indexOf(y.id)][key]
+      const triggerscoreX = object.map(score => score.movie_id).indexOf(x.id)[key]
+      const triggerscoreY = object.map(score => score.movie_id).indexOf(y.id)[key]
       if (triggerscoreX > triggerscoreY){ return -1}
       if (triggerscoreX < triggerscoreY){ return 1}
   }
