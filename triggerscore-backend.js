@@ -98,11 +98,12 @@ app.get('/stats', function(req,res){
   con.query(sql, function(err,result){
   if (err) throw err;
     else {
+      let calculatedScores = calculateScores(result)
       let totalRatings = result.length
-      let totalMovies = calculateScores(result).length
+      let totalMovies = calculatedScores.length
       let allScoresAdded = 0
-      calculateScores(result).forEach(score=>{allScoresAdded = allScoresAdded + score.rating_total;console.log(score.rating_total, allScoresAdded)})
-      let averageScore = Math.floor(allScoresAdded / result.length / 10) * 10
+      calculatedScores.forEach(score=>{allScoresAdded = allScoresAdded + score.rating_total;console.log(score.rating_total, allScoresAdded)})
+      let averageScore = Math.floor(allScoresAdded / totalRatings * 10) / 10
       let stats = {"totalRatings":totalRatings,"averageScore":averageScore,"amountMovies":totalMovies}
       res.send(stats);
     }})
