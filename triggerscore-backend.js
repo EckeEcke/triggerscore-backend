@@ -94,6 +94,18 @@ app.get('/top10-cringe', function(req,res){
     }})
 })
 
+app.get('/stats', function(req,res){
+  con.query(sql, function(err,result){
+  if (err) throw err;
+    else {
+      let totalRatings = result.length
+      let totalMovies = calculateScores(result).length
+      let averageScore = Math.floor(calculateScores(result) / result.length / 10) * 10
+      let stats = {"totalRatings":totalRatings,"averageScore":averageScore,"amountMovies":totalMovies}
+      res.send(stats);
+    }})
+})
+
 
 function calculateScores(data){
   let scores = []
@@ -123,6 +135,7 @@ function calculateScores(data){
   })
   return  scores
 }
+
 
 
 
