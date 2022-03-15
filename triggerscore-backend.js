@@ -101,10 +101,30 @@ app.get('/stats', function(req,res){
       let calculatedScores = calculateScores(result)
       let totalRatings = result.length
       let totalMovies = calculatedScores.length
-      let allScoresAdded = 0
-      calculatedScores.forEach(score=>{allScoresAdded = allScoresAdded + score.rating_total;console.log(score.rating_total, allScoresAdded)})
-      let averageScore = Math.floor(allScoresAdded / totalMovies * 10) / 10
-      let stats = {"totalRatings":totalRatings,"averageScore":averageScore,"amountMovies":totalMovies}
+      let allScoresTotal = 0
+      let allScoresSexism = 0
+      let allScoresRacism = 0
+      let allScoresOthers = 0
+      let allScoresCringe = 0
+      calculatedScores.forEach(score=>{allScoresTotal = allScoresTotal + score.rating_total})
+      calculatedScores.forEach(score=>{allScoresSexism = allScoresSexism + score.rating_sexism})
+      calculatedScores.forEach(score=>{allScoresRacism = allScoresRacism + score.rating_racism})
+      calculatedScores.forEach(score=>{allScoresOthers = allScoresOthers + score.rating_others})
+      calculatedScores.forEach(score=>{allScoresCringe = allScoresCringe + score.rating_cringe})
+      let averageScoreTotal = Math.floor(allScoresTotal / totalMovies * 10) / 10
+      let averageScoreSexism = Math.floor(allScoresSexism/ totalMovies * 10) / 10
+      let averageScoreRacism = Math.floor(allScoresRacism / totalMovies * 10) / 10
+      let averageScoreOthers = Math.floor(allScoresOthers / totalMovies * 10) / 10
+      let averageScoreCringe = Math.floor(allScoresCringe / totalMovies * 10) / 10
+      let stats = {
+                    "totalRatings":totalRatings,
+                    "averageScoreTotal":averageScoreTotal,
+                    "averageScoreSexism":averageScoreSexism,
+                    "averageScoreRacism":averageScoreRacism,
+                    "averageScoreOthers":averageScoreOthers,
+                    "averageScoreCringe":averageScoreCringe,
+                    "amountMovies":totalMovies
+                  }
       res.send(stats);
     }})
 })
