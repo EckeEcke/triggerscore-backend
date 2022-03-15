@@ -100,7 +100,9 @@ app.get('/stats', function(req,res){
     else {
       let totalRatings = result.length
       let totalMovies = calculateScores(result).length
-      let averageScore = Math.floor(calculateScores(result) / result.length / 10) * 10
+      let allScoresAdded = 0
+      calculateScores(result).map(score=>allScoresAdded += score.rating_total)
+      let averageScore = Math.floor(allScoresAdded / result.length / 10) * 10
       let stats = {"totalRatings":totalRatings,"averageScore":averageScore,"amountMovies":totalMovies}
       res.send(stats);
     }})
