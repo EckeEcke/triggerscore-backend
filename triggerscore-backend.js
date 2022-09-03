@@ -3,21 +3,22 @@ const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 3000;
 const http = require('http');
-const mysql = require('mysql');
-const con = mysql.createConnection({
-  host: "c8u4r7fp8i8qaniw.chr7pe7iynqr.eu-west-1.rds.amazonaws.com",
-  database: "v0mtw65d57zsmu6p",
-  user: "u7ghvmrp1qd4nd7e",
-  password: "fdfmk7k5da0azwof",
-  port: 3306
-});
 
 const sql = `SELECT * FROM triggerscore ORDER BY id ASC`;
 
-con.connect(function(err) {
+const Pool = require('pg').Pool
+const pool = new Pool({
+  user: 'main',
+  host: 'dpg-cc96achgp3jg0deq0up0-a',
+  database: 'triggerscore',
+  password: 'EfcJfAc7KjG7z6J7duWsjXHZn07BMcE8',
+  port: 5432,
+})
+
+pool.connect(function(err) {
   if(err) throw err;
   console.log("Connected!");
-  con.query(sql, function (err, result) {
+  pool.query(sql, function (err, result) {
      if (err) throw err;
      console.log("Result: " + result);
   });
@@ -27,7 +28,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/', function (req, res) {
-  con.query(sql, function(err,result){
+  pool.query(sql, function(err,result){
     if (err) throw err;
     else {
       let calculatedScores = calculateScores(result)
@@ -36,7 +37,7 @@ app.get('/', function (req, res) {
 }).listen(port);
 
 app.get('/movie/:id', function(req,res) {
-  con.query(`SELECT * FROM triggerscore WHERE movie_id = ${req.params.id}`, function(err,result){
+  pool.query(`SELECT * FROM triggerscore WHERE movie_id = ${req.params.id}`, function(err,result){
     if(err) throw err;
     else {
       let calculatedScore = calculateScores(result)
@@ -46,7 +47,7 @@ app.get('/movie/:id', function(req,res) {
 })
 
 app.get('/recentratings', function(req,res) {
-  con.query(`SELECT * FROM triggerscore ORDER BY id DESC LIMIT 6`, function(err,result){
+  pool.query(`SELECT * FROM triggerscore ORDER BY id DESC LIMIT 6`, function(err,result){
     if(err) throw err;
     else {
       res.send(result)
@@ -55,7 +56,7 @@ app.get('/recentratings', function(req,res) {
 })
 
 app.get('/top10-sexism', function(req,res){
-  con.query(sql, function(err,result){
+  pool.query(sql, function(err,result){
     if (err) throw err;
     else {
       let calculatedScores = calculateScores(result)
@@ -65,7 +66,7 @@ app.get('/top10-sexism', function(req,res){
 })
 
 app.get('/top10-racism', function(req,res){
-  con.query(sql, function(err,result){
+  pool.query(sql, function(err,result){
     if (err) throw err;
     else {
       let calculatedScores = calculateScores(result)
@@ -75,7 +76,7 @@ app.get('/top10-racism', function(req,res){
 })
 
 app.get('/top10-others', function(req,res){
-  con.query(sql, function(err,result){
+  pool.query(sql, function(err,result){
     if (err) throw err;
     else {
       let calculatedScores = calculateScores(result)
@@ -85,7 +86,7 @@ app.get('/top10-others', function(req,res){
 })
 
 app.get('/top10-cringe', function(req,res){
-  con.query(sql, function(err,result){
+  pool.query(sql, function(err,result){
     if (err) throw err;
     else {
       let calculatedScores = calculateScores(result)
@@ -95,7 +96,7 @@ app.get('/top10-cringe', function(req,res){
 })
 
 app.get('/stats', function(req,res){
-  con.query(sql, function(err,result){
+  pool.query(sql, function(err,result){
   if (err) throw err;
     else {
       let calculatedScores = calculateScores(result)
@@ -169,7 +170,7 @@ app.post('/post', function(request,response){
     console.log("no movie defined in request body.............")
   }
   if(request.body.movieID != undefined){
-    con.query('INSERT INTO triggerscore (movie_id,rating_sexism, rating_racism, rating_others, rating_cringe) VALUES (?, ?, ?, ?, ?)',[request.body.movieID,request.body.sexism,request.body.racism, request.body.others, request.body.cringe], function (err) {
+    pool.query('INSERT INTO triggerscore (movie_id,rating_sexism, rating_racism, rating_others, rating_cringe) VALUES (?, ?, ?, ?, ?)',[request.body.movieID,request.body.sexism,request.body.racism, request.body.others, request.body.cringe], function (err) {
       if(err) throw err;
       else {response.send("Received request")};
   })
