@@ -1,24 +1,23 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3000;
 const http = require('http');
+const mysql = require('mysql');
+const con = mysql.createConnection({
+  host: "triggerscore-aws.cyo3r8nlmim9.us-east-1.rds.amazonaws.com",
+  database: "triggerscore",
+  user: "admin",
+  password: "CbVMaet4pqrMZ7dST2Ib",
+  port: 3306
+});
 
 const sql = `SELECT * FROM triggerscore ORDER BY id ASC`;
 
-const Pool = require('pg').Pool
-const pool = new Pool({
-  user: 'main',
-  host: 'dpg-cc96achgp3jg0deq0up0-a.frankfurt-postgres.render.com',
-  database: 'triggerscore',
-  password: 'EfcJfAc7KjG7z6J7duWsjXHZn07BMcE8',
-  port: 5432,
-})
-
-pool.connect(function(err) {
+con.connect(function(err) {
   if(err) throw err;
   console.log("Connected!");
-  pool.query(sql, function (err, result) {
+  con.query(sql, function (err, result) {
      if (err) throw err;
      console.log("Result: " + result);
   });
@@ -28,7 +27,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/', function (req, res) {
-  pool.query(sql, function(err,result){
+  con.query(sql, function(err,result){
     if (err) throw err;
     else {
       let calculatedScores = calculateScores(result)
@@ -37,7 +36,7 @@ app.get('/', function (req, res) {
 }).listen(port);
 
 app.get('/movie/:id', function(req,res) {
-  pool.query(`SELECT * FROM triggerscore WHERE movie_id = ${req.params.id}`, function(err,result){
+  con.query(`SELECT * FROM triggerscore WHERE movie_id = ${req.params.id}`, function(err,result){
     if(err) throw err;
     else {
       let calculatedScore = calculateScores(result)
@@ -47,7 +46,7 @@ app.get('/movie/:id', function(req,res) {
 })
 
 app.get('/recentratings', function(req,res) {
-  pool.query(`SELECT * FROM triggerscore ORDER BY id DESC LIMIT 6`, function(err,result){
+  con.query(`SELECT * FROM triggerscore ORDER BY id DESC LIMIT 6`, function(err,result){
     if(err) throw err;
     else {
       res.send(result)
@@ -56,7 +55,7 @@ app.get('/recentratings', function(req,res) {
 })
 
 app.get('/top10-sexism', function(req,res){
-  pool.query(sql, function(err,result){
+  con.query(sql, function(err,result){
     if (err) throw err;
     else {
       let calculatedScores = calculateScores(result)
@@ -66,7 +65,7 @@ app.get('/top10-sexism', function(req,res){
 })
 
 app.get('/top10-racism', function(req,res){
-  pool.query(sql, function(err,result){
+  con.query(sql, function(err,result){
     if (err) throw err;
     else {
       let calculatedScores = calculateScores(result)
@@ -76,7 +75,7 @@ app.get('/top10-racism', function(req,res){
 })
 
 app.get('/top10-others', function(req,res){
-  pool.query(sql, function(err,result){
+  con.query(sql, function(err,result){
     if (err) throw err;
     else {
       let calculatedScores = calculateScores(result)
@@ -86,7 +85,7 @@ app.get('/top10-others', function(req,res){
 })
 
 app.get('/top10-cringe', function(req,res){
-  pool.query(sql, function(err,result){
+  con.query(sql, function(err,result){
     if (err) throw err;
     else {
       let calculatedScores = calculateScores(result)
@@ -96,7 +95,7 @@ app.get('/top10-cringe', function(req,res){
 })
 
 app.get('/stats', function(req,res){
-  pool.query(sql, function(err,result){
+  con.query(sql, function(err,result){
   if (err) throw err;
     else {
       let calculatedScores = calculateScores(result)
@@ -170,7 +169,7 @@ app.post('/post', function(request,response){
     console.log("no movie defined in request body.............")
   }
   if(request.body.movieID != undefined){
-    pool.query('INSERT INTO triggerscore (movie_id,rating_sexism, rating_racism, rating_others, rating_cringe) VALUES (?, ?, ?, ?, ?)',[request.body.movieID,request.body.sexism,request.body.racism, request.body.others, request.body.cringe], function (err) {
+    con.query('INSERT INTO triggerscore (movie_id,rating_sexism, rating_racism, rating_others, rating_cringe) VALUES (?, ?, ?, ?, ?)',[request.body.movieID,request.body.sexism,request.body.racism, request.body.others, request.body.cringe], function (err) {
       if(err) throw err;
       else {response.send("Received request")};
   })
