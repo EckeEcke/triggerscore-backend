@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 const http = require('http');
 
 const sql = `SELECT * FROM triggerscore ORDER BY id ASC`;
@@ -9,7 +9,7 @@ const sql = `SELECT * FROM triggerscore ORDER BY id ASC`;
 const Pool = require('pg').Pool
 const pool = new Pool({
   user: 'main',
-  host: 'dpg-cc96achgp3jg0deq0up0-a',
+  host: 'dpg-cc96achgp3jg0deq0up0-a.frankfurt-postgres.render.com',
   database: 'triggerscore',
   password: 'EfcJfAc7KjG7z6J7duWsjXHZn07BMcE8',
   port: 5432,
