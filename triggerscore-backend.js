@@ -31,7 +31,8 @@ app.get('/', function (req, res) {
     if (err) throw err;
     else {
       let calculatedScores = calculateScores(result)
-      let comments = getComments(result)
+      console.log(getComments(result))
+      let comments = [] //getComments(result)
       res.send(calculatedScores,comments);
     }})
 }).listen(port);
