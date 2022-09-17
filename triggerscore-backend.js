@@ -169,7 +169,7 @@ app.post('/post', function(request,response){
     console.log("no movie defined in request body.............")
   }
   if(request.body.movieID != undefined){
-    con.query('INSERT INTO triggerscore (movie_id,rating_sexism, rating_racism, rating_others, rating_cringe) VALUES (?, ?, ?, ?, ?)',[request.body.movieID,request.body.sexism,request.body.racism, request.body.others, request.body.cringe], function (err) {
+    con.query('INSERT INTO triggerscore (movie_id,rating_sexism, rating_racism, rating_others, rating_cringe, comment) VALUES (?, ?, ?, ?, ?, ?)',[request.body.movieID,request.body.sexism,request.body.racism, request.body.others, request.body.cringe, request.body.comment], function (err) {
       if(err) throw err;
       else {response.send("Received request")};
   })
