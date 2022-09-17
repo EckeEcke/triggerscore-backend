@@ -33,7 +33,7 @@ app.get('/', function (req, res) {
       let calculatedScores = calculateScores(result)
       console.log(getComments(result))
       let comments = [] //getComments(result)
-      res.send(calculatedScores,comments);
+      res.send(calculatedScores);
     }})
 }).listen(port);
 
