@@ -31,7 +31,8 @@ app.get('/', function (req, res) {
     if (err) throw err;
     else {
       let calculatedScores = calculateScores(result)
-      res.send(calculatedScores);
+      let comments = getComments(result)
+      res.send(calculatedScores,comments);
     }})
 }).listen(port);
 
@@ -159,7 +160,15 @@ function calculateScores(data){
   return  scores
 }
 
-
+function getComments(data){
+  let comments = []
+  data.forEach(entry => {
+    if(entry.comment != null && entry.comment.length){
+      comments.push(entry.comment)
+    }
+    return comments
+  })
+}
 
 
 app.post('/post', function(request,response){
