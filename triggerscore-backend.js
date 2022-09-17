@@ -31,8 +31,6 @@ app.get('/', function (req, res) {
     if (err) throw err;
     else {
       let calculatedScores = calculateScores(result)
-      console.log(getComments(result))
-      let comments = [] //getComments(result)
       res.send(calculatedScores);
     }})
 }).listen(port);
@@ -141,6 +139,7 @@ function calculateScores(data){
     if(index == -1) {
       entry.rating_total = entryTotal
       entry.ratings = 1
+      entry.comments = [entry.comment]
       scores.push(entry)
     } else {
       scores[index].ratings += 1
@@ -149,6 +148,7 @@ function calculateScores(data){
       scores[index].rating_others += entry.rating_others
       scores[index].rating_cringe += entry.rating_cringe
       scores[index].rating_total += entryTotal
+      scores[index].comments.push(entry.comment)
     }
   })
   scores.forEach(score=> {
@@ -157,6 +157,7 @@ function calculateScores(data){
     score.rating_others = Math.floor(score.rating_others / score.ratings * 10) / 10
     score.rating_cringe = Math.floor(score.rating_cringe / score.ratings * 10) / 10
     score.rating_total = Math.floor(score.rating_total / score.ratings * 10) / 10
+    score.comments = score.comments.filter(entry => {return entry != null})
   })
   return  scores
 }
