@@ -135,6 +135,8 @@ app.get('/stats', function(req,res){
 function calculateScores(data){
   let scores = []
   let comments = 0
+  let likes = 0
+  let dislikes = 0
   data.forEach(entry => {
     if(entry.comment != null && entry.comment.length > 3){
       comments += 1
@@ -145,14 +147,30 @@ function calculateScores(data){
       entry.rating_total = entryTotal
       entry.ratings = 1
       entry.comments = [entry.comment]
+      entry.likes = 0
+      entry.dislikes = 0
+      if(entry.liked == 1){
+        entry.likes += 1
+      }
+      if(entry.disliked == 1){
+        entry.dislikes += 1
+      }
       scores.push(entry)
     } else {
+      console.log(scores[index].likes)
       scores[index].ratings += 1
       scores[index].rating_sexism += entry.rating_sexism
       scores[index].rating_racism += entry.rating_racism
       scores[index].rating_others += entry.rating_others
       scores[index].rating_cringe += entry.rating_cringe
       scores[index].rating_total += entryTotal
+      console.log(entry.disliked)
+      if(entry.liked == 1){
+        scores[index].likes += 1
+      }
+      if(entry.disliked == 1){
+          scores[index].dislikes += 1
+      }
       scores[index].comments.push(entry.comment)
     }
   })
