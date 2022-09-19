@@ -19,7 +19,6 @@ con.connect(function(err) {
   console.log("Connected!");
   con.query(sql, function (err, result) {
      if (err) throw err;
-     console.log("Result: " + result);
   });
 });
 
@@ -99,6 +98,8 @@ app.get('/stats', function(req,res){
   if (err) throw err;
     else {
       let calculatedScores = calculateScores(result)
+      let amountComments =  countComments(result)
+      console.log(amountComments)
       let totalRatings = result.length
       let totalMovies = calculatedScores.length
       let allScoresTotal = 0
@@ -123,7 +124,8 @@ app.get('/stats', function(req,res){
                     "averageScoreRacism":averageScoreRacism,
                     "averageScoreOthers":averageScoreOthers,
                     "averageScoreCringe":averageScoreCringe,
-                    "amountMovies":totalMovies
+                    "amountMovies":totalMovies,
+                    "amountComments": amountComments
                   }
       res.send(stats);
     }})
@@ -132,8 +134,11 @@ app.get('/stats', function(req,res){
 
 function calculateScores(data){
   let scores = []
-  console.log(data)
+  let comments = 0
   data.forEach(entry => {
+    if(entry.comment != null && entry.comment.length > 3){
+      comments += 1
+    }
     let index = scores.map(score => score.movie_id).indexOf(entry.movie_id)
     let entryTotal = (entry.rating_sexism + entry.rating_racism + entry.rating_others) / 3
     if(index == -1) {
@@ -162,15 +167,16 @@ function calculateScores(data){
   return  scores
 }
 
-function getComments(data){
-  let comments = []
+function countComments(data){
+  let comments = 0
   data.forEach(entry => {
-    if(entry.comment != null && entry.comment.length){
-      comments.push(entry.comment)
-    }
-    return comments
+      if(entry.comment != null && entry.comment.length > 3){
+        comments += 1
+      }
   })
+  return comments
 }
+
 
 
 app.post('/post', function(request,response){
