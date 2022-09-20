@@ -99,6 +99,7 @@ app.get('/stats', function(req,res){
     else {
       let calculatedScores = calculateScores(result)
       let amountComments =  countComments(result)
+      let amountLikes = countLikesAndDislikes(result)
       console.log(amountComments)
       let totalRatings = result.length
       let totalMovies = calculatedScores.length
@@ -125,7 +126,9 @@ app.get('/stats', function(req,res){
                     "averageScoreOthers":averageScoreOthers,
                     "averageScoreCringe":averageScoreCringe,
                     "amountMovies":totalMovies,
-                    "amountComments": amountComments
+                    "amountComments": amountComments,
+                    "amountLikes": amountLikes.likes,
+                    "amountDislikes": amountLikes.dislikes
                   }
       res.send(stats);
     }})
@@ -193,6 +196,22 @@ function countComments(data){
       }
   })
   return comments
+}
+
+function countLikesAndDislikes(data){
+  let likes = {
+    likes: 0,
+    dislikes: 0
+  }
+  data.forEach(entry => {
+      if(entry.liked == 1){
+        likes.likes += 1
+      }
+      if(entry.disliked == 1){
+        likes.dislikes += 1
+      }
+  })
+  return likes
 }
 
 
