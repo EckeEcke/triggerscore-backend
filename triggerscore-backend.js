@@ -145,7 +145,8 @@ function calculateScores(data){
       comments += 1
     }
     let index = scores.map(score => score.movie_id).indexOf(entry.movie_id)
-    let entryTotal = (entry.rating_sexism + entry.rating_racism + entry.rating_others) / 3
+    // let entryTotal = (entry.rating_sexism + entry.rating_racism + entry.rating_others) / 3  ORIGINAL CALCULATION
+    let entryTotal = calculateTotal(entry) // NEW CALCULATION
     if(index == -1) {
       entry.rating_total = entryTotal
       entry.ratings = 1
@@ -196,6 +197,15 @@ function countComments(data){
       }
   })
   return comments
+}
+
+function calculateTotal(score){
+  const racism = score.rating_racism
+  const sexism = score.rating_sexism
+  const others = score.rating_others
+  const highest = Math.max(racism,sexism,others)
+  // console.log(highest,((score.rating_sexism + score.rating_racism + score.rating_others) / 3),((racism + sexism + others + highest*5) / 8  ))
+  return (racism + sexism + others + highest*5) / 8  
 }
 
 function countLikesAndDislikes(data){
