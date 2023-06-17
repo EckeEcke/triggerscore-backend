@@ -53,6 +53,15 @@ app.get('/recentratings', function(req,res) {
   })
 })
 
+app.get('/recentcomments', function(req,res) {
+  con.query(`SELECT * FROM triggerscore WHERE comment IS NOT NULL AND comment != '' ORDER BY id DESC LIMIT 6`, function(err,result){
+    if(err) throw err;
+    else {
+      res.send(result)
+    }
+  })
+})
+
 app.get('/top10-sexism', function(req,res){
   con.query(sql, function(err,result){
     if (err) throw err;
