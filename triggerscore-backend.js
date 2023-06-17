@@ -54,7 +54,7 @@ app.get('/recentratings', function(req,res) {
 })
 
 app.get('/recentcomments', function(req,res) {
-  con.query(`SELECT * FROM triggerscore WHERE comment IS NOT NULL AND comment != '' ORDER BY id DESC LIMIT 8`, function(err,result){
+  con.query(`SELECT * FROM triggerscore WHERE comment IS NOT NULL AND comment != '' ORDER BY id DESC LIMIT 6`, function(err,result){
     if(err) throw err;
     else {
       res.send(result)
