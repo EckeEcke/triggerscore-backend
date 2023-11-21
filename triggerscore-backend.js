@@ -5,10 +5,10 @@ const port = process.env.PORT || 3000;
 const http = require('http');
 const mysql = require('mysql');
 const con = mysql.createConnection({
-  host: "triggerscore-aws.cyo3r8nlmim9.us-east-1.rds.amazonaws.com",
-  database: "triggerscore",
-  user: "admin",
-  password: "CbVMaet4pqrMZ7dST2Ib",
+  host: "b4bmcybi5dsuhtz1mafw-mysql.services.clever-cloud.com",
+  database: "b4bmcybi5dsuhtz1mafw",
+  user: "ulltycclvxak60rw",
+  password: "ZFSKWgED6HiqVyAnLHgY",
   port: 3306
 });
 
