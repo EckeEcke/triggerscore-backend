@@ -5,10 +5,10 @@ const port = process.env.PORT || 3000;
 const http = require('http');
 const mysql = require('mysql');
 const con = mysql.createConnection({
-  host: "b4bmcybi5dsuhtz1mafw-mysql.services.clever-cloud.com",
-  database: "b4bmcybi5dsuhtz1mafw",
-  user: "ulltycclvxak60rw",
-  password: "ZFSKWgED6HiqVyAnLHgY",
+  host: "sql11.freesqldatabase.com",
+  database: "sql11700093",
+  user: "sql11700093",
+  password: "z6uFIA7aze",
   port: 3306
 });
 
