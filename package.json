@@ -5,11 +5,9 @@
   "main": "triggerscore-backend.js",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.17.2",
+    "express": "^4.19.2",
     "mongodb": "^6.8.0",
-    "node": "^17.3.0",
-    "pg": "^8.8.0",
-    "pg-promise": "^10.12.0"
+    "node": "^20.17.0"
   },
   "scripts": {
     "start": "node triggerscore-backend.js",
