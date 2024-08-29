@@ -14,9 +14,9 @@ app.listen(port, '0.0.0.0', () => {
 
 let database
 const uri = "mongodb+srv://ceckardt254:CjDU44xSFTJ1g5JG@cluster0.sen83.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-const client = new MongoClient(uri)
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 
-async function run() {
+const run = async () => {
   try {
     database = client.db('triggerscore')
     const scores = database.collection('scores')
