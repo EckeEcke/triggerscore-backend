@@ -13,7 +13,7 @@ app.listen(port, '0.0.0.0', () => {
 })
 
 let database
-const uri = "mongodb+srv://ceckardt254:CjDU44xSFTJ1g5JG@cluster0.sen83.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = `mongodb+srv://ceckardt254:${process.env.DATABASE_PASSWORD}@cluster0.sen83.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 
 const run = async () => {
