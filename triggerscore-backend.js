@@ -79,6 +79,7 @@ function calculateScores(data){
     score.rating_total = Math.floor(score.rating_total / score.ratings * 10) / 10
     score.comments = score.comments.filter(entry => {return entry != null})
   })
+  console.log(data)
   return  scores
 }
 
@@ -126,7 +127,7 @@ app.get('/', async (req, res) => {
 
 app.get('/movie/:id', async (req,res) => {
   try {
-    const ratings = await database.collection('scores').find({ "movie_id": req.params.id }).toArray()
+    const ratings = await database.collection('scores').find({ "movie_id": parseInt(req.params.id) }).toArray()
     res.json(calculateScores(ratings))
   } catch (err) {
     res.status(500).json({ message: err.message })
