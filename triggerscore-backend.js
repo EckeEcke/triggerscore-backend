@@ -265,7 +265,7 @@ app.post('/post', async (request,response) => {
   }
 
   try {
-    const result = await database.collection('triggerscore').insertOne({
+    const result = await database.collection('scores').insertOne({
       movie_id: request.body.movieID,
       rating_sexism: request.body.sexism,
       rating_racism: request.body.racism,
