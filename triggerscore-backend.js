@@ -275,7 +275,7 @@ app.post('/post', async (request,response) => {
       liked: request.body.like,
       disliked: request.body.dislike
     })
-    response.send("Received request")
+    response.json({ message: "Received request", result })
   } catch (err) {
     console.error(err);
     response.status(500).send("Error inserting data")
