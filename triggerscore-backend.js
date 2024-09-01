@@ -148,8 +148,11 @@ app.get('/recentcomments', async (req,res) => {
   try {
     const ratings = await database.collection('scores')
     .find(
-      { 
-        comment: { $ne: null, $ne: "" } 
+      {
+        $and: [
+          { comment: { $ne: null } },
+          { comment: { $ne: "" } }
+        ]
       }
     ).sort(
       { createdAt: -1 }
