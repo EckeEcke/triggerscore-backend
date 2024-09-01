@@ -283,7 +283,8 @@ app.post('/post', async (request,response) => {
       }),
       comment: request.body.comment,
       liked: request.body.like,
-      disliked: request.body.dislike
+      disliked: request.body.dislike,
+      createdAt: new Date()
     })
     response.json({ message: "Received request", result })
   } catch (err) {
