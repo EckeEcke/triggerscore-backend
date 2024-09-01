@@ -116,6 +116,7 @@ function countLikesAndDislikes(data){
   })
   return likes
 }
+
 app.get('/', async (req, res) => {
   try {
     const scores = await database.collection('scores').find().toArray()
@@ -136,7 +137,7 @@ app.get('/movie/:id', async (req,res) => {
 
 app.get('/recentratings', async (req,res) => {
   try {
-    const ratings = await database.collection('scores').find().sort( { id: -1 }).limit(6).toArray()
+    const ratings = await database.collection('scores').find().sort( { createdAt: -1 }).limit(6).toArray()
     res.json(ratings)
   } catch (err) {
     res.status(500).json({ message: err.message })
@@ -151,7 +152,7 @@ app.get('/recentcomments', async (req,res) => {
         comment: { $ne: null, $ne: "" } 
       }
     ).sort(
-      { id: -1 }
+      { createdAt: -1 }
     ).limit(8)
     .toArray()
     res.json(ratings)
