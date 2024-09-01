@@ -275,6 +275,11 @@ app.post('/post', async (request,response) => {
       rating_racism: request.body.racism,
       rating_others: request.body.others,
       rating_cringe: request.body.cringe,
+      rating_total: calculateTotal({
+        rating_sexism: request.body.sexism,
+        rating_racism: request.body.racism,
+        rating_others: request.body.others,
+      }),
       comment: request.body.comment,
       liked: request.body.like,
       disliked: request.body.dislike
