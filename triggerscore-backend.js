@@ -98,7 +98,8 @@ function calculateTotal(score){
   const sexism = score.rating_sexism
   const others = score.rating_others
   const highest = Math.max(racism,sexism,others)
-  return (racism + sexism + others + highest*5) / 8  
+  const total = (racism + sexism + others + highest*5) / 8
+  return total.parseFloat(total.toFixed(1))  
 }
 
 function countLikesAndDislikes(data){
