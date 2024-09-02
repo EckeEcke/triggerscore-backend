@@ -1,6 +1,8 @@
 const express = require('express')
+const axios = require('axios')
 const { MongoClient } = require("mongodb")
 const cors = require('cors')
+const Bottleneck = require('bottleneck')
 
 require('dotenv').config()
 
@@ -127,10 +129,89 @@ app.get('/', async (req, res) => {
   }
 })
 
+app.get('/movies/:locale', async (req, res) => {
+  try {
+    const scores = database.collection('scores')
+    const movieIds = await scores.distinct('movie_id')
+    const locale = req.params.locale
+
+    const movieDataPromises = movieIds.map(id => axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.API_KEY}&language=${locale}`))
+    const movieDataResponses = await Promise.all(movieDataPromises)
+    const movies = movieDataResponses.map(response => response.data)
+
+    res.json(movies)
+  } catch (error) {
+      console.error(error)
+      res.status(500).send('Internal Server Error')
+  }
+})
+
 app.get('/movie/:id', async (req,res) => {
   try {
     const ratings = await database.collection('scores').find({ "movie_id": parseInt(req.params.id) }).toArray()
     res.json(calculateScores(ratings))
+  } catch (err) {
+    res.status(500).json({ message: err.message })
+  }
+})
+
+const limiter = new Bottleneck({
+  minTime: 10, // Minimum time between requests
+  maxConcurrent: 10 // Maximum number of concurrent requests
+})
+
+app.get('/providers/:locale', async (req,res) => {
+  try {
+    const streamingProviders = ['netflix', 'prime', 'disney', 'sky']
+    const scores = await database.collection('scores')
+    const movieIds = await scores.distinct('movie_id')
+    const netflix = []
+    const disney = []
+    const prime = []
+    const sky = []
+    const providerRegion = req.params.locale.toUpperCase() === 'EN' ? 'GB' : req.params.locale.toUpperCase()
+    const providerDataPromises = movieIds.map(id => limiter.schedule(() => axios.get(`https://api.themoviedb.org/3/movie/${id}/watch/providers?api_key=${process.env.API_KEY}`)))
+    const providerDataResponses = await Promise.all(providerDataPromises)
+    const providerData = providerDataResponses.map(response => response.data)
+    providerData.map(entry => {
+      if (!entry.results[providerRegion] || !entry.results[providerRegion].flatrate) return
+        if (
+          entry.results[providerRegion].flatrate.some(
+            (provider) => provider.provider_name == "Netflix"
+          )
+        ) {
+          netflix.push(entry.id)
+        }
+        if (
+          entry.results[providerRegion].flatrate.some(
+            (provider) =>
+              provider.provider_name == "Amazon Prime Video"
+          )
+        ) {
+          prime.push(entry.id)
+        }
+        if (
+          entry.results[providerRegion].flatrate.some(
+            (provider) => provider.provider_name == "Disney Plus"
+          )
+        ) {
+          disney.push(entry.id)
+        }
+        if (
+          entry.results[providerRegion].flatrate.some(
+            (provider) => provider.provider_name == "WOW"
+          )
+        ) {
+          sky.push(entry.id)
+        }
+    })
+    const finalProviderInfo = {
+      netflix,
+      prime,
+      disney,
+      sky,
+    }
+    res.json(finalProviderInfo)
   } catch (err) {
     res.status(500).json({ message: err.message })
   }
@@ -298,7 +379,7 @@ app.post('/post', async (request,response) => {
     })
     response.json({ message: "Received request", result })
   } catch (err) {
-    console.error(err);
+    console.error(err)
     response.status(500).send("Error inserting data")
   }
 })
