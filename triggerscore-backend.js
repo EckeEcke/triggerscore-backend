@@ -284,7 +284,17 @@ app.post('/post', async (request,response) => {
       comment: request.body.comment,
       liked: request.body.like,
       disliked: request.body.dislike,
-      createdAt: new Date()
+      title: request.body.title,
+      original_title: request.body.original_title,
+      runtime: request.body.runtime,
+      vote_average: request.body.vote_average,
+      tagline: request.body.tagline,
+      overview: request.body.overview,
+      imdb_id: request.body.imdb_id,
+      backdrop_path: request.body.backdrop_path,
+      poster_path: request.body.poster_path,
+      release_date: request.body.release_date,
+      createdAt: new Date(),
     })
     response.json({ message: "Received request", result })
   } catch (err) {
