@@ -319,44 +319,40 @@ app.get('/top10-cringe', async (req,res) => {
 
 app.get('/stats', async (req,res) => {
   try {
-    const ratings = await database.collection('scores')
-      .find()
-      .sort({ rating_cringe: -1 })
-      .limit(10)
-      .toArray()
-      const calculatedScores = calculateScores(ratings)
-      const amountComments =  countComments(ratings)
-      const amountLikes = countLikesAndDislikes(ratings)
-      const totalRatings = ratings.length
-      const totalMovies = calculatedScores.length
-      let allScoresTotal = 0
-      let allScoresSexism = 0
-      let allScoresRacism = 0
-      let allScoresOthers = 0
-      let allScoresCringe = 0
-      calculatedScores.forEach(score=>{allScoresTotal = allScoresTotal + score.rating_total})
-      calculatedScores.forEach(score=>{allScoresSexism = allScoresSexism + score.rating_sexism})
-      calculatedScores.forEach(score=>{allScoresRacism = allScoresRacism + score.rating_racism})
-      calculatedScores.forEach(score=>{allScoresOthers = allScoresOthers + score.rating_others})
-      calculatedScores.forEach(score=>{allScoresCringe = allScoresCringe + score.rating_cringe})
-      const averageScoreTotal = Math.floor(allScoresTotal / totalMovies * 10) / 10
-      const averageScoreSexism = Math.floor(allScoresSexism/ totalMovies * 10) / 10
-      const averageScoreRacism = Math.floor(allScoresRacism / totalMovies * 10) / 10
-      const averageScoreOthers = Math.floor(allScoresOthers / totalMovies * 10) / 10
-      const averageScoreCringe = Math.floor(allScoresCringe / totalMovies * 10) / 10
-      const stats = {
-                    "totalRatings":totalRatings,
-                    "averageScoreTotal":averageScoreTotal,
-                    "averageScoreSexism":averageScoreSexism,
-                    "averageScoreRacism":averageScoreRacism,
-                    "averageScoreOthers":averageScoreOthers,
-                    "averageScoreCringe":averageScoreCringe,
-                    "amountMovies":totalMovies,
-                    "amountComments": amountComments,
-                    "amountLikes": amountLikes.likes,
-                    "amountDislikes": amountLikes.dislikes
-                  }
-      res.send(stats)
+    const ratings = await database.collection('scores').find().toArray()
+    const calculatedScores = calculateScores(ratings)
+    const amountComments =  countComments(ratings)
+    const amountLikes = countLikesAndDislikes(ratings)
+    const totalRatings = ratings.length
+    const totalMovies = calculatedScores.length
+    let allScoresTotal = 0
+    let allScoresSexism = 0
+    let allScoresRacism = 0
+    let allScoresOthers = 0
+    let allScoresCringe = 0
+    calculatedScores.forEach(score=>{allScoresTotal = allScoresTotal + score.rating_total})
+    calculatedScores.forEach(score=>{allScoresSexism = allScoresSexism + score.rating_sexism})
+    calculatedScores.forEach(score=>{allScoresRacism = allScoresRacism + score.rating_racism})
+    calculatedScores.forEach(score=>{allScoresOthers = allScoresOthers + score.rating_others})
+    calculatedScores.forEach(score=>{allScoresCringe = allScoresCringe + score.rating_cringe})
+    const averageScoreTotal = Math.floor(allScoresTotal / totalMovies * 10) / 10
+    const averageScoreSexism = Math.floor(allScoresSexism/ totalMovies * 10) / 10
+    const averageScoreRacism = Math.floor(allScoresRacism / totalMovies * 10) / 10
+    const averageScoreOthers = Math.floor(allScoresOthers / totalMovies * 10) / 10
+    const averageScoreCringe = Math.floor(allScoresCringe / totalMovies * 10) / 10
+    const stats = {
+                  "totalRatings":totalRatings,
+                  "averageScoreTotal":averageScoreTotal,
+                  "averageScoreSexism":averageScoreSexism,
+                  "averageScoreRacism":averageScoreRacism,
+                  "averageScoreOthers":averageScoreOthers,
+                  "averageScoreCringe":averageScoreCringe,
+                  "amountMovies":totalMovies,
+                  "amountComments": amountComments,
+                  "amountLikes": amountLikes.likes,
+                  "amountDislikes": amountLikes.dislikes
+                }
+    res.send(stats)
   } catch (err) {
     res.status(500).json({ message: err.message })
   }
