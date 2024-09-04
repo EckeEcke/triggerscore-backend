@@ -81,7 +81,6 @@ function calculateScores(data){
     score.rating_total = Math.floor(score.rating_total / score.ratings * 10) / 10
     score.comments = score.comments.filter(entry => {return entry != null})
   })
-  console.log(data)
   return  scores
 }
 
@@ -101,7 +100,7 @@ function calculateTotal(score){
   const others = score.rating_others
   const highest = Math.max(racism,sexism,others)
   const total = (racism + sexism + others + highest*5) / 8
-  return total.toFixed(1)  
+  return parseFloat(total.toFixed(1))  
 }
 
 function countLikesAndDislikes(data){
