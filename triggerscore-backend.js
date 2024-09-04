@@ -267,12 +267,10 @@ app.get('/recentcomments', async (req,res) => {
 
 app.get('/top10-sexism', async (req,res) => {
     try {
-      const ratings = await database.collection('scores')
-      .find()
-      .sort({ rating_sexism: -1 })
-      .limit(10)
-      .toArray()
-      res.json(ratings)
+      const ratings = await database.collection('scores').find().toArray()
+      const ratingsSortedBySexism = calculateScores(ratings).sort((a, b) => b.rating_sexism - a.rating_sexism)
+      const top10 = ratingsSortedBySexism.slice(0,10)
+      res.json(top10)
     } catch (err) {
       res.status(500).json({ message: err.message })
     }
@@ -280,12 +278,10 @@ app.get('/top10-sexism', async (req,res) => {
 
 app.get('/top10-racism', async (req,res) => {
     try {
-      const ratings = await database.collection('scores')
-      .find()
-      .sort({ rating_racism: -1 })
-      .limit(10)
-      .toArray()
-      res.json(ratings)
+      const ratings = await database.collection('scores').find().toArray()
+      const ratingsSortedByRacism = calculateScores(ratings).sort((a, b) => b.rating_racism - a.rating_racism)
+      const top10 = ratingsSortedByRacism.slice(0,10)
+      res.json(top10)
     } catch (err) {
       res.status(500).json({ message: err.message })
     }
@@ -293,12 +289,10 @@ app.get('/top10-racism', async (req,res) => {
 
 app.get('/top10-others', async (req,res) => {
   try {
-    const ratings = await database.collection('scores')
-      .find()
-      .sort({ rating_others: -1 })
-      .limit(10)
-      .toArray()
-      res.json(ratings)
+    const ratings = await database.collection('scores').find().toArray()
+    const ratingsSortedByOthers = calculateScores(ratings).sort((a, b) => b.rating_others - a.rating_others)
+    const top10 = ratingsSortedByOthers.slice(0,10)
+    res.json(top10)
   } catch (err) {
     res.status(500).json({ message: err.message })
   }
@@ -306,12 +300,10 @@ app.get('/top10-others', async (req,res) => {
 
 app.get('/top10-cringe', async (req,res) => {
   try {
-    const ratings = await database.collection('scores')
-      .find()
-      .sort({ rating_cringe: -1 })
-      .limit(10)
-      .toArray()
-      res.json(ratings)
+    const ratings = await database.collection('scores').find().toArray()
+    const ratingsSortedByCringe = calculateScores(ratings).sort((a, b) => b.rating_cringe - a.rating_cringe)
+    const top10 = ratingsSortedByCringe.slice(0,10)
+    res.json(top10)
   } catch (err) {
     res.status(500).json({ message: err.message })
   }
