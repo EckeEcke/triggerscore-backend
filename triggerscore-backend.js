@@ -123,7 +123,7 @@ function countLikesAndDislikes(data){
 app.get('/', async (req, res) => {
   try {
     const scores = await database.collection('scores').find().toArray()
-    res.json(scores)
+    res.json(calculateScores(scores))
   } catch (err) {
     res.status(500).json({ message: err.message })
   }
