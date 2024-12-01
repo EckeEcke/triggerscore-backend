@@ -134,7 +134,7 @@ app.get('/movies/:locale', async (req, res) => {
     const movieIds = await scores.distinct('movie_id')
     const locale = req.params.locale
 
-    const movieDataPromises = movieIds.map(id => axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.API_KEY}&language=${locale}`))
+    const movieDataPromises = movieIds.map(id => axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.API_KEY}&language=${locale}&append_to_response=videos`))
     const movieDataResponses = await Promise.all(movieDataPromises)
     const movies = movieDataResponses.map(response => response.data)
 
